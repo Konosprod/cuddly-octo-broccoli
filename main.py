@@ -27,6 +27,7 @@ class EmotMe:
                     for key, value in self.emots.items():
                         writer.writerow([key, value])
 
+                await self.bot.delete_message(context.message)
                 await self.bot.say(":white_check_mark:  **" + emot + "** Added !")
             else:
                 await self.bot.say(":x: Emoji **" + emot + "** already exist !")
@@ -40,6 +41,13 @@ class EmotMe:
         if emot is not None:
             if emot in self.emots.keys():
                 del self.emots[emot]
+
+                with open("emots.csv", mode="w", newline='') as csvfile:
+                    writer = csv.writer(csvfile)
+                    for key, value in self.emots.items():
+                        writer.writerow([key, value])
+
+                await self.bot.delete_message(context.message)
                 await self.bot.say(":white_check_mark:  **" + emot + "** Deleted !")
             else:
                 await self.bot.say(":x: Uknown emoji **" + emot + "**")
